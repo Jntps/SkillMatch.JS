@@ -75,3 +75,34 @@ function analisarCompatibilidade(perfilCandidato, listaVagas) {
  };
   });
 }
+// ==========================================
+// RF14 - Usar promise e async/await
+// ==========================================
+function buscarVagas() {
+  return new Promise((resolve, reject) => {
+    console.log("Buscando vagas disponíveis...");
+    setTimeout(() => {
+      const servidorOnline = true; // Simulação de verificação do servidor
+      if (servidorOnline) resolve(vagasFicticias);
+      else reject("Erro 500: Falha ao conectar com o servidor de vagas.");
+    }, 2000);
+  });
+}
+
+// ==========================================
+// Função Principal
+// ==========================================
+async function iniciarSistema() {
+  try {
+    const vagasCarregadas = await buscarVagas();
+    console.log("Vagas carregadas com sucesso!\n");
+    const resultadoAnalise = analisarCompatibilidade(candidato, vagasCarregadas);
+    console.log("=== RELATÓRIO DE COMPATIBILIDADE ===");
+    console.table(resultadoAnalise);
+  } catch (erro) {
+    console.error("Ops, ocorreu um problema:", erro);
+  }
+}
+
+// Iniciar o sistema
+iniciarSistema();
